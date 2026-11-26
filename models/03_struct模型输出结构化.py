@@ -1,16 +1,18 @@
 """
     模型返回数据结构化 3种方式：
-    1 Pydantic 对象
+    1 Pydantic 对象  -底层实现：通过tool_calls()调用
     2 TypedDict 字典
-    3 jsonschema 外部注入动态传参的场景
+    3 jsonschema 外部注入动态传参的场景 -底层实现：通过tool_calls()调用
 """
 from typing import List
 
+from jsonschema import ValidationError
 from langchain_core.runnables import RunnableSequence
 from pydantic import BaseModel, Field
 from typing_extensions import TypedDict, Annotated
 
 from init_llm import deepseek_llm
+import jsonschema
 
 """
     Pydantic
@@ -85,6 +87,9 @@ if __name__ == '__main__':
 
     model_with_structured: RunnableSequence
 
+    # 可以设置为true后，返回的数据为AIMessage全，全的中包含了：结构化的
+    # deepseek_llm_local.with_structured_output(include_raw=True)
+
     if test_type == 1:
         model_with_structured = deepseek_llm_local.with_structured_output(Movie)
     elif test_type == 2:
@@ -92,6 +97,16 @@ if __name__ == '__main__':
     else:
         model_with_structured = deepseek_llm_local.with_structured_output(request_jsonschema)
 
+    # 请求结果
     response = model_with_structured.invoke('帮我介绍一下电影：《泰坦尼克号》')
+
+    # jsonschema类型，返回结果格式验证
+    if test_type == 3:
+        try:
+            jsonschema.validate(instance=response, schema=request_jsonschema)
+            print("校验通过")
+        except ValidationError as e:
+            print("校验失败：", e.message)
+
     print(f'结构类型：{type(response)}')
     print(response)
