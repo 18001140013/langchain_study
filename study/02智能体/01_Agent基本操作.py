@@ -1,11 +1,14 @@
 from langchain.agents import create_agent
 from langchain_core.tools import tool
 
-from init_llm import qwen_llm_local,deepseek_llm_local
+from init_llm import qwen_llm_local, deepseek_llm_local
 
 """搭建一个智能体
     扩展2个tool,实现对指定公司的最新新闻、股价查询
     deepseek-r1:7b
+    
+    【Agent】核心工作原理：遵循ReAct框架（Reasoning+Acting）
+    推理+行动 这个过程涉及到：模型、工具、记忆、中间件等核心组件。
 """
 
 
