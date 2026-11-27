@@ -6,7 +6,8 @@ from pydantic import BaseModel, Field
 from env_util import DEEPSEEK_API_KEY, DEEPSEEK_BASE_URL
 
 """
-    推理模型，返回的数据结构不能使用那三种，需要用parser解析器去解析模型返回的json数据成一个对象
+    推理模型，返回的数据结构不能使用那三种，需要用parser解析器去解析模型返回的json数据成一个对象.
+    with_structured_output 函数不支持推理模型
 """
 deepseek_reasoner_llm = init_chat_model(
     model="deepseek-reasoner",

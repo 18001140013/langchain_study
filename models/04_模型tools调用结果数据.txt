@@ -1,0 +1,55 @@
+///////一、LLM + Tools 步骤:
+[
+【1】发起请求
+HumanMessage(content='北京今天天气如何？', additional_kwargs={}, response_metadata={}), 
+
+【2】模型推理是否调用工具
+AIMessage(content='', additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 38, 'prompt_tokens': 268, 'total_tokens': 306, 'completion_tokens_details': None, 'prompt_tokens_details': {'audio_tokens': None, 'cache_write_tokens': None, 'cached_tokens': 128, 'image_tokens': None, 'text_tokens': None}, 'prompt_cache_hit_tokens': 128, 'prompt_cache_miss_tokens': 140}, 'model_provider': 'deepseek', 'model_name': 'deepseek-flash', 'system_fingerprint': 'bc19ba97cbe016479903222bb1578db6', 'id': '6ffa52ca-bdd0-4681-b370-f2e0d8e76101', 'finish_reason': 'tool_calls', 'logprobs': None, 'normalized_finish_reason': 'tool_call'}, id='lc_run--01a21b69-0bc9-7121-a4e3-23f0e3b3049d-0', tool_calls=[{'name': 'get_weather', 'args': {'location': '北京'}, 'id': 'call_00_8yYlXuM89svcQW52h0h68314', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 268, 'output_tokens': 38, 'total_tokens': 306, 'input_token_details': {'cache_read': 128}, 'output_token_details': {}}), 
+
+【3】模型推理后 手动调用工具
+ToolMessage(content=' 北京的天气是晴朗的。', name='get_weather', tool_call_id='call_00_8yYlXuM89svcQW52h0h68314'), 
+
+【4】模型推理最终结果
+AIMessage(content='北京今天天气晴朗。☀️\n\n如果你需要了解气温、风力等具体信息，或者在考虑出行、穿衣建议，可以告诉我，我再帮你看看。', additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 33, 'prompt_tokens': 324, 'total_tokens': 357, 'completion_tokens_details': None, 'prompt_tokens_details': {'audio_tokens': None, 'cache_write_tokens': None, 'cached_tokens': 128, 'image_tokens': None, 'text_tokens': None}, 'prompt_cache_hit_tokens': 128, 'prompt_cache_miss_tokens': 196}, 'model_provider': 'deepseek', 'model_name': 'deepseek-flash', 'system_fingerprint': 'bc19ba97cbe016479903222bb1578db6', 'id': 'b3d7b1c6-e978-4c38-a962-14990a9388cb', 'finish_reason': 'stop', 'logprobs': None, 'normalized_finish_reason': 'stop'}, id='lc_run--01a21b69-0e51-7624-ac50-ae60936481c4-0', tool_calls=[], invalid_tool_calls=[], usage_metadata={'input_tokens': 324, 'output_tokens': 33, 'total_tokens': 357, 'input_token_details': {'cache_read': 128}, 'output_token_details': {}})
+]
+
+
+/////// 二、工具查询失败案例：
+[
+HumanMessage(content='腾讯最近有什么重大新闻？', additional_kwargs={}, response_metadata={}), 
+
+AIMessage(content='我来帮您搜索腾讯最近的重大新闻。', additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 46, 'prompt_tokens': 401, 'total_tokens': 447, 'completion_tokens_details': None, 'prompt_tokens_details': {'audio_tokens': None, 'cache_write_tokens': None, 'cached_tokens': 0, 'image_tokens': None, 'text_tokens': None}, 'prompt_cache_hit_tokens': 0, 'prompt_cache_miss_tokens': 401}, 'model_provider': 'deepseek', 'model_name': 'deepseek-flash', 'system_fingerprint': 'bc19ba97cbe016479903222bb1578db6', 'id': 'd92c92ae-548d-4c4c-ace2-080bf2758bcb', 'finish_reason': 'tool_calls', 'logprobs': None, 'normalized_finish_reason': 'tool_call'}, id='lc_run--01a21b8b-ee88-76b1-b0d7-c4af169198b9-0', tool_calls=[{'name': 'search_news', 'args': {'company': '腾讯'}, 'id': 'call_00_orbaHIL85wVH7mUv7bPv4582', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 401, 'output_tokens': 46, 'total_tokens': 447, 'input_token_details': {'cache_read': 0}, 'output_token_details': {}}), 
+
+ToolMessage(content='未找到腾讯的相关新闻', name='search_news', tool_call_id='call_00_orbaHIL85wVH7mUv7bPv4582'), 
+
+AIMessage(content='我尝试搜索"腾讯"但没有找到相关新闻。让我换个方式再试试。', additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 103, 'prompt_tokens': 464, 'total_tokens': 567, 'completion_tokens_details': None, 'prompt_tokens_details': {'audio_tokens': None, 'cache_write_tokens': None, 'cached_tokens': 256, 'image_tokens': None, 'text_tokens': None}, 'prompt_cache_hit_tokens': 256, 'prompt_cache_miss_tokens': 208}, 'model_provider': 'deepseek', 'model_name': 'deepseek-flash', 'system_fingerprint': 'bc19ba97cbe016479903222bb1578db6', 'id': '0471b480-ffdc-40b1-94c7-361052f91eae', 'finish_reason': 'tool_calls', 'logprobs': None, 'normalized_finish_reason': 'tool_call'}, id='lc_run--01a21b8b-f185-77dd-8e3d-912f5d45db9b-0', 
+tool_calls=[{'name': 'search_news', 'args': {'company': '腾讯公司'}, 'id': 'call_00_lqD8mqT8jI8C5WPPzSO13119', 'type': 'tool_call'}, {'name': 'get_stock_price', 'args': {'company': '腾讯公司', 'timeframe': 'week'}, 'id': 'call_01_5DPR8Xxuw8GqQGChSBvR0494', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 464, 'output_tokens': 103, 'total_tokens': 567, 'input_token_details': {'cache_read': 256}, 'output_token_details': {}}), 
+
+ToolMessage(content='未找到腾讯公司的相关新闻', name='search_news', tool_call_id='call_00_lqD8mqT8jI8C5WPPzSO13119'), 
+
+ToolMessage(content='未找到股票代码 腾讯公司 的数据', name='get_stock_price', tool_call_id='call_01_5DPR8Xxuw8GqQGChSBvR0494'), 
+
+AIMessage(content='很抱歉，我目前无法为您提供腾讯的新闻和股价信息。\n\n我尝试了几种方式查询：\n- 搜索"腾讯"相关新闻 —— 未找到结果\n- 搜索"腾讯公司"相关新闻 —— 未找到结果\n- 查询"腾讯公司"近一周股价 —— 未找到数据\n\n这可能是因为我的数据源目前主要覆盖部分上市公司（例如示例中提到的苹果、微软、谷歌等），暂时没有收录腾讯的相关数据。\n\n如果您需要，我可以：\n1. 帮您查询**其他公司**（如苹果、微软、谷歌等）的最新新闻或股价；\n2. 您可以告诉我更具体的公司全称（如"腾讯控股"），我再尝试查询一次。\n\n请问您希望怎么做？', additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 152, 'prompt_tokens': 602, 'total_tokens': 754, 'completion_tokens_details': None, 'prompt_tokens_details': {'audio_tokens': None, 'cache_write_tokens': None, 'cached_tokens': 384, 'image_tokens': None, 'text_tokens': None}, 'prompt_cache_hit_tokens': 384, 'prompt_cache_miss_tokens': 218}, 'model_provider': 'deepseek', 'model_name': 'deepseek-flash', 'system_fingerprint': 'bc19ba97cbe016479903222bb1578db6', 'id': 'f8269032-278e-4480-a814-d6a7557d7e0e', 'finish_reason': 'stop', 'logprobs': None, 'normalized_finish_reason': 'stop'}, id='lc_run--01a21b8b-f4ea-719e-9e86-9b970b6a6a7a-0', tool_calls=[], invalid_tool_calls=[], usage_metadata={'input_tokens': 602, 'output_tokens': 152, 'total_tokens': 754, 'input_token_details': {'cache_read': 384}, 'output_token_details': {}}), 
+]
+
+///////三、工具查询成功案例：
+[
+HumanMessage(content='苹果公司今天的股价是多少？最近有什么新闻？', additional_kwargs={}, response_metadata={}), 
+
+AIMessage(content='我来帮您查询苹果公司的股价和最新新闻。', additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 97, 'prompt_tokens': 405, 'total_tokens': 502, 'completion_tokens_details': None, 'prompt_tokens_details': {'audio_tokens': None, 'cache_write_tokens': None, 'cached_tokens': 256, 'image_tokens': None, 'text_tokens': None}, 'prompt_cache_hit_tokens': 256, 'prompt_cache_miss_tokens': 149}, 'model_provider': 'deepseek', 'model_name': 'deepseek-flash', 'system_fingerprint': 'bc19ba97cbe016479903222bb1578db6', 'id': '49e3dc6e-bc3f-4895-b11f-d5d3bffe19c8', 'finish_reason': 'tool_calls', 'logprobs': None, 'normalized_finish_reason': 'tool_call'}, id='lc_run--01a21b94-14b6-727b-80f9-7330c8049002-0', 
+tool_calls=[{'name': 'get_stock_price', 'args': {'company': '苹果公司', 'timeframe': 'today'}, 'id': 'call_00_5oF9sbSvKWeSVjzLJEeQ5793', 'type': 'tool_call'}, {'name': 'search_news', 'args': {'company': '苹果公司'}, 'id': 'call_01_MmY61pTqvvCVxaBBRNvD2817', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 405, 'output_tokens': 97, 'total_tokens': 502, 'input_token_details': {'cache_read': 256}, 'output_token_details': {}}),
+ 
+ /////// ToolMesage是我们本地 Tool calling 的返回内容
+ ToolMessage(content='苹果公司 today价格: 185.2美元', name='get_stock_price', tool_call_id='call_00_5oF9sbSvKWeSVjzLJEeQ5793'), 
+ 
+ ToolMessage(content='苹果发布新款iPhone，股价上涨3%\n苹果与欧盟达成反垄断和解协议\n苹果将在印度扩大生产规模', name='search_news', tool_call_id='call_01_MmY61pTqvvCVxaBBRNvD2817'), 
+ 
+ AIMessage(content='为您查询到苹果公司的最新信息：\n\n## 📈 今日股价\n**185.2 美元**\n\n## 📰 最近新闻\n1. **苹果发布新款iPhone，股价上涨3%**\n2. **苹果与欧盟达成反垄断和解协议**\n3. **苹果将在印度扩大生产规模**\n\n---\n\n**简要解读：**\n- 新款iPhone发布带动股价上涨3%，显示市场对新品的积极预期。\n- 与欧盟达成反垄断和解，降低了监管风险，利好长期发展。\n- 扩大印度生产规模，体现其供应链多元化战略。\n\n需要我帮您查询更多历史走势或其他公司的信息吗？', additional_kwargs={'refusal': None}, response_metadata={'token_usage': {'completion_tokens': 130, 'prompt_tokens': 556, 'total_tokens': 686, 'completion_tokens_details': None, 'prompt_tokens_details': {'audio_tokens': None, 'cache_write_tokens': None, 'cached_tokens': 384, 'image_tokens': None, 'text_tokens': None}, 'prompt_cache_hit_tokens': 384, 'prompt_cache_miss_tokens': 172}, 'model_provider': 'deepseek', 'model_name': 'deepseek-flash', 'system_fingerprint': 'bc19ba97cbe016479903222bb1578db6', 'id': '2ee44f9e-2b67-4347-9561-a181506578ff', 'finish_reason': 'stop', 'logprobs': None, 'normalized_finish_reason': 'stop'}, id='lc_run--01a21b94-17c5-77dd-a69e-5078241dc4a0-0', tool_calls=[], invalid_tool_calls=[], usage_metadata={'input_tokens': 556, 'output_tokens': 130, 'total_tokens': 686, 'input_token_details': {'cache_read': 384}, 'output_token_details': {}})
+ ]
+
+
+
+
+
+
+

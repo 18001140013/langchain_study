@@ -3,6 +3,8 @@
     1 Pydantic 对象  -底层实现：通过tool_calls()调用
     2 TypedDict 字典
     3 jsonschema 外部注入动态传参的场景 -底层实现：通过tool_calls()调用
+
+    调用函数是：with_structured_output 但这个函数不支持推理模型的。需要看03_02
 """
 from typing import List
 
