@@ -15,6 +15,8 @@ deepseek_llm = ChatDeepSeek(
 )
 # deepseek线下模型 用ollama启动
 deepseek_llm_local = ChatOllama(model="deepseek-r1:7b", base_url="http://localhost:11434")
+# 通义千问线下模型
+qwen_llm_local = ChatOllama(model="qwen3:8b", base_url="http://localhost:11434")
 
 # 测试对话：
 if __name__ == '__main__':

@@ -7,7 +7,8 @@ from langchain_core.tools import tool
 
 # 本地模型下：response.tool_calls 是个空数组，难道只能是线上吗？
 # 确定了：是`deepseek-r1:7b` 原生没有训练工具调用格式
-from init_llm import deepseek_llm_local, deepseek_llm
+# 'qwen_llm_local'模型，是支持tools调用的。
+from init_llm import deepseek_llm_local, deepseek_llm,qwen_llm_local
 
 request_message = [HumanMessage(content="北京今天天气如何？")]
 
@@ -20,7 +21,7 @@ def get_weather(location: str) -> str:
 
 
 # 【2】绑定工具
-model_with_tools = deepseek_llm.bind_tools([get_weather])
+model_with_tools = qwen_llm_local.bind_tools([get_weather])
 
 # 【3】模型调用
 response: AIMessage = model_with_tools.invoke(request_message)
