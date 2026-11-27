@@ -1,0 +1,24 @@
+{
+'messages': [
+【1】
+HumanMessage(content='苹果公司今天的股价是多少？最近有什么新闻？', additional_kwargs={}, response_metadata={}, id='8362a050-f203-4da0-9dfa-d059aa56ed34'),
+【2】
+AIMessage(content='', additional_kwargs={}, response_metadata={'model': 'qwen3:8b', 'created_at': '2026-11-27T12:34:29.416375Z', 'done': True, 'done_reason': 'stop', 'total_duration': 18432609375, 'load_duration': 4866800500, 'prompt_eval_count': 278, 'prompt_eval_duration': 2350875000, 'eval_count': 130, 'eval_duration': 11195318000, 'logprobs': None, 'model_name': 'qwen3:8b', 'model_provider': 'ollama'}, id='lc_run--01a21cff-b99c-70a6-90f9-55c752636f9f-0', tool_calls=[{'name': 'get_stock_price', 'args': {'timeframe': 'today', 'company': '苹果公司'}, 'id': 'bbb426b5-c2da-4f13-beb1-e116533a98c8', 'type': 'tool_call'}, {'name': 'search_news', 'args': {'company': '苹果公司'}, 'id': '5801586b-e0eb-41e1-87c0-d91be4d1df64', 'type': 'tool_call'}], invalid_tool_calls=[], usage_metadata={'input_tokens': 278, 'output_tokens': 130, 'total_tokens': 408}), 
+【3】
+ToolMessage(content='苹果公司 today价格: 185.2美元', name='get_stock_price', id='80f1b2d6-6b7a-4182-9291-1fa1f4a0a9df', tool_call_id='bbb426b5-c2da-4f13-beb1-e116533a98c8'), 
+【4】
+ToolMessage(content='苹果发布新款iPhone，股价上涨3%\n苹果与欧盟达成反垄断和解协议\n苹果将在印度扩大生产规模', name='search_news', id='fb6446f2-fe38-4cfe-bdab-f88ee1e44dc5', tool_call_id='5801586b-e0eb-41e1-87c0-d91be4d1df64'), 
+【5】
+AIMessage(content='苹果公司今日股价为185.2美元。近期重要动态包括：\n1. 发布新款iPhone，推动股价上涨3%\n2. 与欧盟达成反垄断和解协议\n3. 计划在印度扩大生产规模\n\n这些消息显示苹果公司在产品创新、法律合规和产能扩张方面均有积极布局。需要了解具体新闻详情或股价走势分析可随时告知。', additional_kwargs={}, response_metadata={'model': 'qwen3:8b', 'created_at': '2026-11-27T12:35:03.936656Z', 'done': True, 'done_reason': 'stop', 'total_duration': 34496233625, 'load_duration': 7251208, 'prompt_eval_count': 379, 'prompt_eval_duration': 1025622000, 'eval_count': 389, 'eval_duration': 33450815000, 'logprobs': None, 'model_name': 'qwen3:8b', 'model_provider': 'ollama'}, id='lc_run--01a21d00-01bd-779b-9fb4-528f15a233c0-0', tool_calls=[], invalid_tool_calls=[], usage_metadata={'input_tokens': 379, 'output_tokens': 389, 'total_tokens': 768})
+]
+}
+
+{'messages': [HumanMessage(content='苹果公司今天的股价是多少？最近有什么新闻？', additional_kwargs={}, response_metadata={}, id='4c98f94d-507c-4339-8097-95885abf6930'), AIMessage(content='\n\n您好，建议您联网获取时效性较强的信息；如果还有其他问题需要帮助，请随时告诉我！', additional_kwargs={}, response_metadata={'model': 'deepseek-r1:7b', 'created_at': '2026-11-27T12:42:37.75674Z', 'done': True, 'done_reason': 'stop', 'total_duration': 24353177000, 'load_duration': 3587397500, 'prompt_eval_count': 36, 'prompt_eval_duration': 605478000, 'eval_count': 262, 'eval_duration': 20147858000, 'logprobs': None, 'model_name': 'deepseek-r1:7b', 'model_provider': 'ollama'}, id='lc_run--01a21d07-160d-77bd-814f-a59cc186e687-0', tool_calls=[], invalid_tool_calls=[], usage_metadata={'input_tokens': 36, 'output_tokens': 262, 'total_tokens': 298})]}
+
+#####deepseek agent 调用返回数据：不支持tools calling
+{'messages': [
+HumanMessage(content='苹果公司今天的股价是多少？最近有什么新闻？', additional_kwargs={}, response_metadata={}, id='fad66897-ded1-4148-a111-c85523179816'), 
+
+AIMessage(content='\n\n要获取苹果公司（Apple Inc.）今天的股价和最近的新闻，你可以按照以下步骤操作：\n\n### 获取苹果公司股价：\n1. **访问财经网站**：如Yahoo Finance、Bloomberg、Thomson Reuters、Morningstar等。\n2. **使用股票交易平台**：如MetaTrader、TradingView等，这些平台提供实时股价数据。\n3. **查阅苹果公司官网**：苹果公司有时会发布与股价相关的信息。\n4. **使用Apple的App Store**：在App Store中可以查看股票相关信息。\n\n### 获取最近的新闻：\n1. **苹果公司官网**：定期发布新闻稿，特别是关于新产品、战略变动或市场动态。\n2. **财经新闻网站**：如The Wall Street Journal、The New York Times、BBC News等。\n3. **社交媒体平台**：苹果公司通常在Twitter、LinkedIn等平台发布重要信息。\n4. **新闻聚合网站**：如Newsarama、CNET等，会聚合最新的科技新闻。\n\n### 注意事项：\n- **实时性**：股票价格和新闻可能随时变化，建议使用官方或权威渠道获取最新信息。\n- **准确性**：确保信息来源可靠，避免因信息过时或不准确导致的决策失误。\n\n如果你需要实时信息，建议直接访问上述渠道或使用相关的应用工具获取最新数据。', additional_kwargs={}, response_metadata={'model': 'deepseek-r1:7b', 'created_at': '2026-11-27T13:04:58.031874Z', 'done': True, 'done_reason': 'stop', 'total_duration': 45045393458, 'load_duration': 4106951916, 'prompt_eval_count': 36, 'prompt_eval_duration': 482904000, 'eval_count': 525, 'eval_duration': 40439294000, 'logprobs': None, 'model_name': 'deepseek-r1:7b', 'model_provider': 'ollama'}, id='lc_run--01a21d1b-38b8-734b-9a26-c78a89781124-0', tool_calls=[], invalid_tool_calls=[], usage_metadata={'input_tokens': 36, 'output_tokens': 525, 'total_tokens': 561})
+]
+}
